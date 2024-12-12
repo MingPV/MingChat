@@ -10,12 +10,11 @@ interface Message {
   created_at: string;
 }
 
-const ChatPage: React.FC = () => {
+export default function ChatPage(user: any) {
   const supabase = createClient();
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
-  const [username, setUsername] = useState<string>("Anonymous");
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -51,10 +50,11 @@ const ChatPage: React.FC = () => {
   }, []);
 
   const sendMessage = async () => {
+    // console.log(user.user.email);
     if (newMessage.trim() !== "") {
       const { error } = await supabase.from("messages").insert([
         {
-          user: username,
+          user: user?.user?.user_metadata?.display_name,
           message: newMessage,
           created_at: new Date().toISOString(),
         },
@@ -86,13 +86,7 @@ const ChatPage: React.FC = () => {
           </div>
         ))}
       </div>
-      <input
-        type="text"
-        placeholder="Your username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        style={{ marginBottom: "10px", display: "block", width: "100%" }}
-      />
+
       <input
         type="text"
         placeholder="Type your message..."
@@ -105,6 +99,4 @@ const ChatPage: React.FC = () => {
       </button>
     </div>
   );
-};
-
-export default ChatPage;
+}
