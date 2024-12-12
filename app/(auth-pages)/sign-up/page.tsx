@@ -20,7 +20,7 @@ export default async function Signup(props: {
 
   return (
     <>
-      <form className="flex flex-col min-w-64 max-w-64 mx-auto">
+      <form className="flex flex-col mx-auto my-12 bg-teal-800 py-14 px-20 rounded-xl">
         <h1 className="text-2xl font-medium">Sign up</h1>
         <p className="text-sm text text-foreground">
           Already have an account?{" "}
@@ -45,7 +45,7 @@ export default async function Signup(props: {
           <FormMessage message={searchParams} />
         </div>
       </form>
-      <SmtpMessage />
+      {/* <SmtpMessage /> */}
     </>
   );
 }
