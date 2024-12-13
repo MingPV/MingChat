@@ -44,6 +44,8 @@ export const updateSession = async (request: NextRequest) => {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }else if(request.nextUrl.pathname.startsWith("/chat") && user.error){
       return NextResponse.redirect(new URL("/sign-in", request.url));
+    }else if(request.nextUrl.pathname.startsWith("/friend") && user.error){
+      return NextResponse.redirect(new URL("/sign-in", request.url));
     }
 
     // no need to redirect to protected now
