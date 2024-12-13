@@ -20,7 +20,7 @@ export const signUpAction = async (formData: FormData) => {
     );
   }
 
-  const { error } = await supabase.auth.signUp({
+  const { data: authData, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -33,6 +33,24 @@ export const signUpAction = async (formData: FormData) => {
     console.error(error.code + " " + error.message);
     return encodedRedirect("error", "/sign-up", error.message);
   } else {
+
+    if (authData?.user?.id) {
+      let { data, error } = await supabase.rpc('insert_user_and_friends', {
+        uid: authData.user.id,
+        username: displayName,
+        email: email,
+        profile: null,
+        created_at: new Date(),
+        system_uid: "6e6c01fc-fad1-4cdf-9d7a-0c74dc34cb44", // MingPV uid
+      });
+
+      if (error) {
+        console.error('Transaction failed:', error.message);
+      } else {
+        console.log('Transaction successful:', data);
+      }
+    }
+
     return encodedRedirect(
       "success",
       "/",
