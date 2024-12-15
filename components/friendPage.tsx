@@ -9,6 +9,7 @@ export default function FriendPage(props: any) {
   const friend_status = props.friend_status;
 
   console.log(friend_status);
+  console.log(friends);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResult, setSerachResult] = useState(Array);
@@ -31,15 +32,21 @@ export default function FriendPage(props: any) {
       setSerachResult(data);
       console.log(data); // Display the search results
     }
+    console.log("Banaaaaa");
+    console.log(data);
   };
 
-  const addFriend = async (friendUid: any) => {
+  const addFriend = async (friendUid: any, friend_name: any) => {
     console.log(`sending request to ${friendUid}`);
     console.log(user);
+    console.log("testttttttttttttt");
+    console.log(friend_name);
     const { data, error } = await supabase.rpc("insert_friends_with_request", {
       uid: user.user.id,
       f_uid: friendUid,
       since: new Date(),
+      my_name: user.user.user_metadata.display_name,
+      friend_name: friend_name,
     });
 
     if (error) {
@@ -71,7 +78,7 @@ export default function FriendPage(props: any) {
       <ul>
         {friends.map((friend: any) => (
           <li key={friend.f_uid}>
-            Friend UID: {friend.f_uid} Since:{" "}
+            {friend.friend_name} Since:{" "}
             {new Date(friend.since).toLocaleDateString()}{" "}
             {!friend.is_accepted ? (
               friend.status == "receiving" ? (
@@ -138,7 +145,7 @@ export default function FriendPage(props: any) {
               <button
                 className="border hover: px-1"
                 onClick={(e: any) => {
-                  addFriend(result.uid);
+                  addFriend(result.uid, result.username);
                   e.currentTarget.innerText = "requested";
                   e.target.disabled = true;
                 }}

@@ -42,6 +42,7 @@ export const signUpAction = async (formData: FormData) => {
         profile: null,
         created_at: new Date(),
         system_uid: "6e6c01fc-fad1-4cdf-9d7a-0c74dc34cb44", // MingPV uid
+        system_name: "MingPV"
       });
 
       if (error) {

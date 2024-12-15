@@ -12,7 +12,7 @@ export default async function FriendsPage() {
   // Fetch friends from the friends table
   const { data: friends, error: friendsError } = await supabase
     .from("friends")
-    .select("uid, f_uid, since, status, is_accepted")
+    .select("uid, f_uid, since, status, is_accepted, friend_name")
     .eq("uid", user.user.id);
 
   if (friendsError) {
@@ -36,11 +36,6 @@ export default async function FriendsPage() {
   };
 
   initializeFriendDict();
-
-  // const fruitDict = fruits.map((fruit, index) => ({
-  //   id: index + 1,
-  //   name: fruit,
-  // }));
 
   return (
     <FriendPage friends={friends} user={user} friend_status={friend_status} />
