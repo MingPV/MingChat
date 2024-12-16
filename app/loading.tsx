@@ -1,11 +1,12 @@
-export default async function Index() {
+import Loading from "@/components/loading";
+import React from "react";
+
+type Props = {};
+
+export default function loading({}: Props) {
   return (
-    <>
-      <main className="bg-teal-800 flex flex-col flex-1">
-        <div className="flex flex-col flex-1 justify-center items-center bg-teal-700">
-          loading
-        </div>
-      </main>
-    </>
+    <div>
+      <Loading />
+    </div>
   );
 }

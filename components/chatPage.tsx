@@ -70,33 +70,34 @@ export default function ChatPage(user: any) {
   };
 
   return (
-    <div style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
-      <h1>Realtime Chat</h1>
-      <div
-        style={{
-          border: "1px solid #ccc",
-          padding: "10px",
-          height: "300px",
-          overflowY: "scroll",
-        }}
-      >
-        {messages.map((msg) => (
-          <div key={msg.id}>
-            <strong>{msg.user}</strong>: {msg.message}
-          </div>
-        ))}
-      </div>
+    // <div style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
+    //   <h1>Realtime Chat</h1>
+    //   <div
+    //     style={{
+    //       border: "1px solid #ccc",
+    //       padding: "10px",
+    //       height: "300px",
+    //       overflowY: "scroll",
+    //     }}
+    //   >
+    //     {messages.map((msg) => (
+    //       <div key={msg.id}>
+    //         <strong>{msg.user}</strong>: {msg.message}
+    //       </div>
+    //     ))}
+    //   </div>
 
-      <input
-        type="text"
-        placeholder="Type your message..."
-        value={newMessage}
-        onChange={(e) => setNewMessage(e.target.value)}
-        style={{ marginBottom: "10px", display: "block", width: "100%" }}
-      />
-      <button onClick={sendMessage} style={{ display: "block", width: "100%" }}>
-        Send
-      </button>
-    </div>
+    //   <input
+    //     type="text"
+    //     placeholder="Type your message..."
+    //     value={newMessage}
+    //     onChange={(e) => setNewMessage(e.target.value)}
+    //     style={{ marginBottom: "10px", display: "block", width: "100%" }}
+    //   />
+    //   <button onClick={sendMessage} style={{ display: "block", width: "100%" }}>
+    //     Send
+    //   </button>
+    // </div>
+    <div>Chat</div>
   );
 }

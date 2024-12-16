@@ -2,6 +2,7 @@ import FriendList from "@/components/friendList";
 import Chat from "@/components/chat";
 import { createClient } from "@/utils/supabase/server";
 import ChatPage from "@/components/chatPage";
+import Loading from "@/components/loading";
 
 export default async function Index() {
   const supabase = await createClient();
@@ -32,8 +33,8 @@ export default async function Index() {
 
   return (
     <>
-      <main className="bg-teal-800 flex flex-col flex-1">
-        <div className="flex flex-row flex-1 bg-teal-700">
+      <main className="flex flex-col flex-1">
+        <div className="flex flex-row flex-1">
           <FriendList user={user} friends={friends} />
         </div>
       </main>

@@ -1,3 +1,5 @@
+// "use client";
+
 import { signUpAction } from "@/app/actions";
 import { FormMessage, Message } from "@/components/form-message";
 import { SubmitButton } from "@/components/submit-button";
@@ -20,7 +22,7 @@ export default async function Signup(props: {
 
   return (
     <>
-      <form className="flex flex-col mx-auto my-12 bg-teal-800 py-14 px-20 rounded-xl">
+      <form className="flex flex-col mx-auto my-12 bg-neutral-600 py-14 px-20 rounded-xl">
         <h1 className="text-2xl font-medium">Sign up</h1>
         <p className="text-sm text text-foreground">
           Already have an account?{" "}

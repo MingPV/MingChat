@@ -25,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-      <body className="bg-teal-900 text-foreground">
+      <body className="bg-neutral-500 text-foreground">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -34,14 +34,11 @@ export default function RootLayout({
         >
           <main className="min-h-screen flex flex-col items-center">
             <div className="flex-1 w-full flex flex-col  items-center">
-              <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16 bg-teal-950">
+              <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16 bg-neutral-700">
                 <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
                   <div className="flex flex-row gap-8">
                     <div className="flex gap-5 items-center font-semibold">
                       <Link href={"/"}>Home</Link>
-                    </div>
-                    <div className="flex gap-5 items-center font-semibold">
-                      <Link href={"/chat"}>Chat</Link>
                     </div>
                     <div className="flex gap-5 items-center font-semibold">
                       <Link href={"/friends"}>Friend</Link>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createClient } from "@/utils/supabase/client";
 
 // Initialize Supabase client
@@ -26,22 +26,51 @@ export default function ChatRoom(props: any) {
   console.log("Mingming");
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
+  const [messageCount, setMessageCount] = useState(0);
   const sortedIds = [user_a_id, user_b_id].sort(); // Ensure the IDs are sorted
   const roomId = `chat-room:${sortedIds[0]}:${sortedIds[1]}`; // Generate consistent roomId
 
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const [isAtBottom, setIsAtBottom] = useState(true);
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleScroll = () => {
+    const container = chatContainerRef.current;
+    if (container) {
+      const isBottom =
+        container.scrollHeight - container.scrollTop === container.clientHeight;
+      setIsAtBottom(isBottom);
+    }
+  };
+
+  const fetchMessages = async () => {
+    const { data, error } = await supabase
+      .from("messages")
+      .select("*")
+      .eq("room_id", roomId)
+      .order("created_at", { ascending: true });
+    if (error) console.error("Error fetching messages:", error);
+    else setMessages(data);
+    if (messages.length > messageCount) {
+      // scrollToBottom();
+    }
+    setMessageCount(data?.length || 0);
+    console.log(roomId);
+    console.log(data);
+  };
+
   useEffect(() => {
     // Fetch initial messages from the database (optional, for persistence)
-    const fetchMessages = async () => {
-      const { data, error } = await supabase
-        .from("messages")
-        .select("*")
-        .eq("room_id", roomId)
-        .order("created_at", { ascending: true });
-      if (error) console.error("Error fetching messages:", error);
-      else setMessages(data);
-      console.log(roomId);
-      console.log(data);
-    };
+
+    console.log("effecttttttttttttttt");
+
     fetchMessages();
 
     // Subscribe to the channel for real-time updates
@@ -56,6 +85,8 @@ export default function ChatRoom(props: any) {
           console.log(`Subscribed to room: ${roomId}`);
         }
       });
+
+    // scrollToBottom();
 
     // Cleanup the channel on component unmount
     return () => {
@@ -90,40 +121,62 @@ export default function ChatRoom(props: any) {
     ]);
 
     setNewMessage(""); // Clear the input field
+
+    // scrollToBottom();
   };
 
   return (
-    <div className="p-6 max-w-lg mx-auto">
-      <h1 className="text-2xl font-bold mb-4 text-center">Chat Room</h1>
-      <div className="border border-gray-300 rounded-lg p-4 h-96 overflow-y-auto flex flex-col space-y-2">
-        {messages.map((msg, idx) => (
-          <div
-            key={idx}
-            className={`p-3 rounded-lg max-w-xs ${
-              msg.sender_id === user_a_id
-                ? "bg-blue-500 text-white self-end"
-                : "bg-gray-200 text-gray-800 self-start"
-            }`}
-          >
-            <strong>{msg.sender_id === user_a_id ? "You" : "Them"}:</strong>{" "}
-            {msg.message}
-          </div>
-        ))}
+    <div className="flex flex-col p-6 w-full">
+      <h1 className="text-2xl font-bold mb-4 text-center text-slate-600">
+        {friend_name}
+      </h1>
+      <div
+        className="border border-gray-300 rounded-xl p-4 h-[55vh] overflow-y-auto flex flex-col-reverse gap-2 "
+        ref={chatContainerRef}
+        onScroll={handleScroll}
+      >
+        {messages
+          .slice()
+          .reverse()
+          .map((msg, idx) => (
+            <div
+              key={idx}
+              className={`p-3 rounded-lg max-w-xs break-words ${
+                msg.sender_id === user_a_id
+                  ? "bg-cyan-900 text-white self-end rounded-xl"
+                  : "bg-neutral-300 text-gray-800 self-start rounded-xl"
+              }`}
+            >
+              <strong>
+                {msg.sender_id === user_a_id ? "" : friend_name + " :"}
+              </strong>{" "}
+              {msg.message}
+            </div>
+          ))}
+        <div ref={messagesEndRef}></div>
       </div>
-      <div className="flex mt-4 space-x-2">
-        <input
-          type="text"
+      <div className="flex mt-4 space-x-2 flex-1">
+        <textarea
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && newMessage.trim()) {
+              sendMessage();
+              e.preventDefault(); // Prevents new line in textarea
+            }
+          }}
           placeholder="Type a message..."
-          className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+          className="flex-1 p-2 border border-gray-400 focus:outline-none focus:ring focus:ring-neutral-500 bg-neutral-400 rounded-xl text-left align-top resize-none"
+          rows={3} // Adjust the number of rows as needed
         />
-        <button
-          onClick={sendMessage}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
-        >
-          Send
-        </button>
+        <div>
+          <button
+            onClick={sendMessage}
+            className="px-4 py-2 bg-neutral-700 text-white rounded-lg hover:bg-neutral-600 focus:outline-none focus:ring focus:ring-neutral-300"
+          >
+            Send
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -12,6 +12,26 @@ export const signUpAction = async (formData: FormData) => {
   const supabase = await createClient();
   const origin = (await headers()).get("origin");
 
+  let { data: user, error: nameError } = await supabase
+  .from('users')
+  .select('username')
+  .eq('username', displayName);  // Specify the column to filter by
+
+  console.log("Dragonnnnnnnnnn")
+  console.log(user)
+  console.log(nameError)
+
+  if(user){
+    return encodedRedirect(
+      "error",
+      "/sign-up",
+      "This username is already taken.",
+    );
+  }
+  
+
+  
+
   if (!email || !password) {
     return encodedRedirect(
       "error",
@@ -42,7 +62,7 @@ export const signUpAction = async (formData: FormData) => {
         profile: null,
         created_at: new Date(),
         system_uid: "6e6c01fc-fad1-4cdf-9d7a-0c74dc34cb44", // MingPV uid
-        system_name: "MingPV"
+        system_name: "MingPV",
       });
 
       if (error) {
@@ -55,7 +75,7 @@ export const signUpAction = async (formData: FormData) => {
     return encodedRedirect(
       "success",
       "/",
-      "Thanks for signing up! Please check your email for a verification link.",
+      "Thanks for signing up!",
     );
   }
 };

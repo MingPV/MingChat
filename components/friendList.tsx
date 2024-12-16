@@ -14,38 +14,35 @@ export default function FriendList(props: any) {
   console.log(props);
   return (
     <>
-      <div className="bg-amber-100 flex flex-col min-w-[400px]">
-        <div>
-          {friends ? (
-            <>
-              <ul className="bg-amber-400 flex flex-col gap-6">
-                {friends?.map((friend: any) => (
-                  <li
-                    className="bg-amber-200 text-slate-700 p-2 flex flex-col cursor-pointer"
-                    key={friend.f_uid}
-                    onClick={() => {
-                      console.log("chat");
-                      setSelectedFriend(friend.f_uid);
-                      setSelectedFriendName(friend.friend_name);
-                    }}
-                  >
-                    Friend Name: {friend.friend_name}
-                  </li>
-                ))}
-              </ul>
-              <div>{selectedFriend}</div>
-              {selectedFriend ? (
-                <Chat
-                  user={user}
-                  friend={selectedFriend}
-                  friend_name={selectedFriendName}
-                />
-              ) : null}
-            </>
-          ) : (
-            <div>you have no friends</div>
-          )}
-        </div>
+      <div className="flex flex-1 bg-neutral-200 rounded-xl">
+        {friends ? (
+          <div className="bg-neutral-200  flex flex-row flex-1 rounded-xl m-3">
+            <ul className=" flex flex-col gap-6 w-96 ">
+              {friends?.map((friend: any) => (
+                <li
+                  className="bg-neutral-600 text-slate-100 p-5 flex flex-col cursor-pointer rounded-xl"
+                  key={friend.f_uid}
+                  onClick={() => {
+                    console.log("chat");
+                    setSelectedFriend(friend.f_uid);
+                    setSelectedFriendName(friend.friend_name);
+                  }}
+                >
+                  Friend Name: {friend.friend_name}
+                </li>
+              ))}
+            </ul>
+            {selectedFriend ? (
+              <Chat
+                user={user}
+                friend={selectedFriend}
+                friend_name={selectedFriendName}
+              />
+            ) : null}
+          </div>
+        ) : (
+          <div>you have no friends</div>
+        )}
       </div>
     </>
   );
