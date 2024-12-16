@@ -21,7 +21,7 @@ export const signUpAction = async (formData: FormData) => {
   console.log(user)
   console.log(nameError)
 
-  if(user){
+  if(user?.length!=0){
     return encodedRedirect(
       "error",
       "/sign-up",

@@ -127,11 +127,11 @@ export default function ChatRoom(props: any) {
 
   return (
     <div className="flex flex-col p-6 w-full">
-      <h1 className="text-2xl font-bold mb-4 text-center text-slate-600">
+      <h1 className="text-2xl font-bold mb-4 text-center text-slate-100">
         {friend_name}
       </h1>
       <div
-        className="border border-gray-300 rounded-xl p-4 h-[55vh] overflow-y-auto flex flex-col-reverse gap-2 "
+        className="border border-neutral-700 rounded-l-xl p-4 h-[55vh] overflow-y-auto flex flex-col-reverse gap-2 "
         ref={chatContainerRef}
         onScroll={handleScroll}
       >
@@ -143,7 +143,7 @@ export default function ChatRoom(props: any) {
               key={idx}
               className={`p-3 rounded-lg max-w-xs break-words ${
                 msg.sender_id === user_a_id
-                  ? "bg-cyan-900 text-white self-end rounded-xl"
+                  ? "bg-cyan-900  text-white self-end rounded-xl"
                   : "bg-neutral-300 text-gray-800 self-start rounded-xl"
               }`}
             >
@@ -166,7 +166,7 @@ export default function ChatRoom(props: any) {
             }
           }}
           placeholder="Type a message..."
-          className="flex-1 p-2 border border-gray-400 focus:outline-none focus:ring focus:ring-neutral-500 bg-neutral-400 rounded-xl text-left align-top resize-none"
+          className="flex-1 p-2 border border-neutral-700 focus:outline-none focus:ring focus:ring-neutral-500 bg-neutral-500 rounded-xl text-left align-top resize-none"
           rows={3} // Adjust the number of rows as needed
         />
         <div>
